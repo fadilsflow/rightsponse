@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ToneSelect } from "@/components/tone-select";
 import {
-  ChevronRightIcon,
   CopyIcon,
   Loader2,
   Mail,
