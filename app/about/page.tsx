@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Github, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
@@ -20,9 +20,9 @@ export default function About() {
             <p className="text-md text-muted-foreground leading-relaxed">
               My journey as a developer has shown me a common challenge we all
               face: crafting the right response in various communication
-              contexts. Whether it's responding to business emails, professional
-              messages, or social interactions, finding the perfect tone and
-              words can be time-consuming and sometimes stressful.
+              contexts. Whether it&apos;s responding to business emails,
+              professional messages, or social interactions, finding the perfect
+              tone and words can be time-consuming and sometimes stressful.
             </p>
 
             <h2 className="text-2xl  mt-8 mb-4">Our Approach</h2>

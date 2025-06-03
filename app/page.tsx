@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
@@ -70,6 +70,7 @@ export default function Home() {
       }
     } catch (error) {
       toast.error("Failed to process your request");
+      console.log("failed to process yout request. message: ", error);
     } finally {
       setIsLoading(false);
     }
