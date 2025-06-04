@@ -148,7 +148,7 @@ export default function Home() {
             </TabsList>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card className="lg:sticky lg:top-8 h-fit">
+              <Card className=" h-fit">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <span>Input</span>
@@ -169,9 +169,9 @@ export default function Home() {
                   <div className="space-y-4">
                     {activeTab === "comment" && (
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">
+                        <p className="text-sm font-medium">
                           Original Comment
-                        </label>
+                        </p>
                         <Textarea
                           placeholder="Paste the comment you're replying to..."
                           value={comment}
@@ -182,11 +182,11 @@ export default function Home() {
                     )}
 
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">
+                      <p className="text-sm font-medium">
                         {activeTab === "message" && "Your Message"}
                         {activeTab === "email" && "Email Content"}
                         {activeTab === "comment" && "Your Reply"}
-                      </label>
+                      </p>
                       <div className="relative">
                         <Textarea
                           placeholder={placeholders[activeTab]}
