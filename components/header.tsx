@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import ModeToggle from "./mode-toggle";
+import { ModeToggle } from "@/components/mode-toggle";
+
 
 export default function Header() {
   return (
@@ -20,7 +21,7 @@ export default function Header() {
             className="dark:invert"
           />
         </Link>
-        <ModeToggle />
+        <ModeToggle/>
       </div>
     </nav>
   );
