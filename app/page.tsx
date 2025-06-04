@@ -25,6 +25,21 @@ import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
+type TabType = "message" | "email" | "comment";
+
+const tabDescriptions = {
+  message: "Improve your message with AI assistance",
+  email: "Create professional emails with proper formatting",
+  comment: "Generate appropriate responses to comments",
+};
+
+const placeholders = {
+  message: "Write your message here...",
+  email:
+    "Write your email content here. The AI will format it with a subject line, greeting, and closing.",
+  comment: "Write your reply here...",
+};
+
 export default function Home() {
   const [inputText, setInputText] = useState("");
   const [comment, setComment] = useState("");
@@ -32,20 +47,24 @@ export default function Home() {
   const [language, setLanguage] = useState("en");
   const [tone, setTone] = useState("professional");
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"message" | "email" | "comment">(
-    "message"
-  );
+  const [activeTab, setActiveTab] = useState<TabType>("message");
 
-  const handleSubmit = async (type: "message" | "email" | "comment") => {
+  const validateInput = (type: TabType): boolean => {
     if (!inputText.trim()) {
-      toast("Please enter your message");
-      return;
+      toast.error("Please enter your message");
+      return false;
     }
 
     if (type === "comment" && !comment.trim()) {
-      toast("Please enter the comment you're replying to");
-      return;
+      toast.error("Please enter the comment you're replying to");
+      return false;
     }
+
+    return true;
+  };
+
+  const handleSubmit = async (type: TabType) => {
+    if (!validateInput(type)) return;
 
     setIsLoading(true);
     try {
@@ -64,31 +83,33 @@ export default function Home() {
       });
 
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to process request");
+      }
+
       if (data.result) {
         setOutputText(data.result);
-        toast("Your text has been improved");
+        toast.success("Your text has been improved");
       }
     } catch (error) {
-      toast.error("Failed to process your request");
-      console.log("failed to process yout request. message: ", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to process your request"
+      );
+      console.error("Error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(outputText);
-    toast("Text copied to clipboard");
-  };
-
-  const getPlaceholder = () => {
-    switch (activeTab) {
-      case "email":
-        return "Write your email content here. The AI will automatically format it with a subject line, greeting, and closing.";
-      case "comment":
-        return "Write your reply here...";
-      default:
-        return "Write your message here...";
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(outputText);
+      toast.success("Text copied to clipboard");
+    } catch {
+      toast.error("Failed to copy text");
     }
   };
 
@@ -108,7 +129,7 @@ export default function Home() {
 
           <Tabs
             value={activeTab}
-            onValueChange={(v) => setActiveTab(v as typeof activeTab)}
+            onValueChange={(v) => setActiveTab(v as TabType)}
             className="w-full"
           >
             <TabsList className="grid w-full grid-cols-3 mb-8">
@@ -141,9 +162,7 @@ export default function Home() {
                     </div>
                   </CardTitle>
                   <CardDescription>
-                    {activeTab === "message" && "Write your message to improve"}
-                    {activeTab === "email" && "Write your email content"}
-                    {activeTab === "comment" && "Write your reply"}
+                    {tabDescriptions[activeTab]}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -170,7 +189,7 @@ export default function Home() {
                       </label>
                       <div className="relative">
                         <Textarea
-                          placeholder={getPlaceholder()}
+                          placeholder={placeholders[activeTab]}
                           className="min-h-[200px] pr-12 resize-none"
                           value={inputText}
                           onChange={(e) => setInputText(e.target.value)}

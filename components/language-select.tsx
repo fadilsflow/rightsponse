@@ -14,22 +14,8 @@ interface LanguageSelectProps {
 }
 
 const languages = [
-  { value: "en", label: "English", group: "Popular" },
-  { value: "id", label: "Indonesian", group: "Popular" },
-  { value: "ms", label: "Malay", group: "Popular" },
-  { value: "zh", label: "Chinese", group: "Popular" },
-  { value: "ja", label: "Japanese", group: "Popular" },
-  { value: "ko", label: "Korean", group: "Popular" },
-  { value: "es", label: "Spanish", group: "Europe" },
-  { value: "fr", label: "French", group: "Europe" },
-  { value: "de", label: "German", group: "Europe" },
-  { value: "it", label: "Italian", group: "Europe" },
-  { value: "pt", label: "Portuguese", group: "Europe" },
-  { value: "ru", label: "Russian", group: "Europe" },
-  { value: "ar", label: "Arabic", group: "Others" },
-  { value: "hi", label: "Hindi", group: "Others" },
-  { value: "th", label: "Thai", group: "Others" },
-  { value: "vi", label: "Vietnamese", group: "Others" },
+  { value: "en", label: "English", group: "Language" },
+  { value: "id", label: "Indonesian", group: "Language" },
 ];
 
 const groupedLanguages = languages.reduce((acc, lang) => {
