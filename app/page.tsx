@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ToneSelect } from "@/components/tone-select";
 import {
+  CheckIcon,
   CopyIcon,
   Loader2,
   Mail,
@@ -41,10 +42,11 @@ const placeholders = {
 };
 
 export default function Home() {
+  const [isCopied, setIsCopied] = useState(false);
   const [inputText, setInputText] = useState("");
   const [comment, setComment] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState("id");
   const [tone, setTone] = useState("professional");
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>("message");
@@ -108,6 +110,8 @@ export default function Home() {
     try {
       await navigator.clipboard.writeText(outputText);
       toast.success("Text copied to clipboard");
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     } catch {
       toast.error("Failed to copy text");
     }
@@ -169,14 +173,12 @@ export default function Home() {
                   <div className="space-y-4">
                     {activeTab === "comment" && (
                       <div className="space-y-2">
-                        <p className="text-sm font-medium">
-                          Original Comment
-                        </p>
+                        <p className="text-sm font-medium">Original Comment</p>
                         <Textarea
                           placeholder="Paste the comment you're replying to..."
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
-                          className="h-24 resize-none"
+                          className="h-24 resize-none "
                         />
                       </div>
                     )}
@@ -190,7 +192,7 @@ export default function Home() {
                       <div className="relative">
                         <Textarea
                           placeholder={placeholders[activeTab]}
-                          className="min-h-[200px] pr-12 resize-none"
+                          className="min-h-[200px] pr-12 resize-none "
                           value={inputText}
                           onChange={(e) => setInputText(e.target.value)}
                         />
@@ -216,27 +218,36 @@ export default function Home() {
               </Card>
 
               <Card>
-                <CardHeader>
+                <CardHeader className="relative">
                   <CardTitle>Improved Version</CardTitle>
                   <CardDescription>
                     AI-enhanced text with your selected style
                   </CardDescription>
+                  <div className="absolute top-7.5 right-6 flex justify-end">
+                    {outputText && (
+                      <Button
+                        size="icon"
+                        variant={"ghost"}
+                        onClick={copyToClipboard}
+                        disabled={isCopied}
+                        className={cn(
+                          "bg-input/30 border-t  border-x text-muted-foreground  border-b-none rounded-b-none",
+                          "disabled:opacity-100 disabled:bg-input/30"
+                        )}
+                      >
+                        {isCopied ? (
+                          <CheckIcon className="w-4 h-4 " />
+                        ) : (
+                          <CopyIcon className="w-4 h-4" />
+                        )}
+                      </Button>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="relative">
-                      <div className="absolute top-2 right-2">
-                        {outputText && (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={copyToClipboard}
-                          >
-                            <CopyIcon className="h-4 w-4" />
-                          </Button>
-                        )}
-                      </div>
-                      <div className="min-h-[300px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm whitespace-pre-wrap">
+                      <div className="min-h-[300px] w-full rounded-tr-none  rounded-md border border-input bg-transparent dark:bg-input/30 px-3 py-2 text-sm whitespace-pre-wrap">
                         {outputText || (
                           <span className="text-muted-foreground">
                             Your improved text will appear here...

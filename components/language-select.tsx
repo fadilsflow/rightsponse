@@ -14,8 +14,8 @@ interface LanguageSelectProps {
 }
 
 const languages = [
-  { value: "en", label: "English", group: "Language" },
   { value: "id", label: "Indonesian", group: "Language" },
+  { value: "en", label: "English", group: "Language" },
 ];
 
 const groupedLanguages = languages.reduce((acc, lang) => {
