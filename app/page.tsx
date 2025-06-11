@@ -247,7 +247,7 @@ export default function Home() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="relative">
-                      <div className="min-h-[300px] w-full rounded-tr-none  rounded-md border border-input bg-transparent dark:bg-input/30 px-3 py-2 text-sm whitespace-pre-wrap">
+                      <div className="min-h-[200px] w-full rounded-tr-none  rounded-md border border-input bg-transparent dark:bg-input/30 px-3 py-2 text-sm whitespace-pre-wrap">
                         {outputText || (
                           <span className="text-muted-foreground">
                             Your improved text will appear here...

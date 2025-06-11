@@ -19,10 +19,10 @@ const systemInstructions = {
 };
 
 // Maximum output length constraints
-const MAX_OUTPUT_TOKENS = 250;
-const TEMPERATURE = 0.3; // Reduced temperature for more focused outputs
+const MAX_OUTPUT_TOKENS = 250; // batas maksimal jumlah token yang akan dihasilkan model.
+const TEMPERATURE = 0.3; // mengontrol kreativitas output AI
 
-export async function POST(req: Request) {
+export async function POST(req: Request) { // Handler untuk menangani permintaan POST dari klien
   try {
     const { text, tone, language, type, comment } = await req.json();
 
@@ -30,13 +30,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Text is required" }, { status: 400 });
     }
 
+    // Menentukan target bahasa
     const targetLanguage =
       languageMap[language as keyof typeof languageMap] || "English";
 
     // Build prompt based on content type
     const prompt = buildPrompt(type, targetLanguage, tone, text, comment);
 
-    const response = await ai.models.generateContent({
+    const response = await ai.models.generateContent({ // Memanggil model AI Gemini
       model: "gemini-2.0-flash",
       contents: prompt,
       config: {
@@ -68,36 +69,36 @@ function buildPrompt(
 ): string {
   const prompts = {
     email: `
-Rewrite this content as ONE professional email in ${language} with a ${tone} tone.
-IMPORTANT: 
-- Provide only ONE version
-- Do not explain or give options
-- Include subject, greeting, and closing
-- Keep it concise and culturally appropriate for ${language}
+          Rewrite this content as ONE professional email in ${language} with a ${tone} tone.
+          IMPORTANT: 
+          - Provide only ONE version
+          - Do not explain or give options
+          - Include subject, greeting, and closing
+          - Keep it concise and culturally appropriate for ${language}
 
-Content to rewrite:
-${text}`,
+          Content to rewrite:
+          ${text}`,   
 
     comment: `
-Write ONE ${tone} response in ${language}.
-IMPORTANT:
-- Provide only ONE direct response
-- Do not explain or give options
-- Maximum 2-3 sentences
-- Keep it contextual and appropriate
+          Write ONE ${tone} response in ${language}.
+          IMPORTANT:
+          - Provide only ONE direct response
+          - Do not explain or give options
+          - Maximum 2-3 sentences
+          - Keep it contextual and appropriate
 
-Original Comment: ${comment}
-Your message: ${text}`,
+          Original Comment: ${comment}
+          Your message: ${text}`,
 
     message: `
-Rewrite this message ONCE in ${language} with a ${tone} tone.
-IMPORTANT:
-- Provide only ONE rewritten version
-- Do not explain or give options
-- Keep the core message intact
-- Be concise and clear
+          Rewrite this message ONCE in ${language} with a ${tone} tone.
+          IMPORTANT:
+          - Provide only ONE rewritten version
+          - Do not explain or give options
+          - Keep the core message intact
+          - Be concise and clear
 
-Message to rewrite:
+          Message to rewrite:
 ${text}`,
   };
 
