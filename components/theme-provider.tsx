@@ -1,3 +1,5 @@
+// Membungkus seluruh aplikasi agar mendukung perubahan tema (light/dark/system).
+
 "use client"
 
 import * as React from "react"

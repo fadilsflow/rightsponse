@@ -12,7 +12,7 @@ export default function Header() {
       </div>
       <div className="flex gap-4 items-center">
         <a
-          href="https://github.com/fadilsflow/rightsponse"
+          href="https://github.com/fadilsflow/rightsponse" // Tautan ke github
           target="_blank"
           rel="noopener noreferrer"
         >

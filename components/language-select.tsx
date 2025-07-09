@@ -31,6 +31,8 @@ export const LanguageSelect = ({
   onValueChange,
 }: LanguageSelectProps) => {
   return (
+    // Mengizinkan user memilih bahasa output AI: "id" (Indonesia) "en" (English)
+    // Value hasil pilihan ini nantinya digunakan untuk menentukan output AI berbahasa apa
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-[130px]">
         <SelectValue placeholder="Language" />

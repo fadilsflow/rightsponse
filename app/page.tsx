@@ -26,14 +26,17 @@ import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
+// Tipe tab yang tersedia
 type TabType = "message" | "email" | "comment";
 
+// Deskripsi untuk masing-masing tab
 const tabDescriptions = {
   message: "Improve your message with AI assistance",
   email: "Create professional emails with proper formatting",
   comment: "Generate appropriate responses to comments",
 };
 
+// Placeholder untuk masing-masing input tergantung tab
 const placeholders = {
   message: "Write your message here...",
   email:
@@ -41,7 +44,9 @@ const placeholders = {
   comment: "Write your reply here...",
 };
 
+// Komponen utama halaman
 export default function Home() {
+  // State untuk menyimpan input/output dan pengaturan
   const [isCopied, setIsCopied] = useState(false);
   const [inputText, setInputText] = useState("");
   const [comment, setComment] = useState("");
@@ -51,6 +56,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>("message");
 
+  // Fungsi validasi agar input tidak kosong
   const validateInput = (type: TabType): boolean => {
     if (!inputText.trim()) {
       toast.error("Please enter your message");
@@ -65,11 +71,13 @@ export default function Home() {
     return true;
   };
 
+   // Fungsi untuk mengirim permintaan ke endpoint AI
   const handleSubmit = async (type: TabType) => {
     if (!validateInput(type)) return;
 
     setIsLoading(true);
     try {
+      // Mengirim Request ke API
       const response = await fetch("/api/rewrite", {
         method: "POST",
         headers: {
@@ -84,12 +92,14 @@ export default function Home() {
         }),
       });
 
+      // Menerima Respons AI
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to process request");
       }
 
+      // Menampilkan Hasil dari AI
       if (data.result) {
         setOutputText(data.result);
         toast.success("Your text has been improved");

@@ -8,7 +8,7 @@ const languageMap = {
   id: "Indonesian",
 };
 
-// System instructions for different types of content
+// Memberi perintah sistem ke AI agar output-nya sesuai
 const systemInstructions = {
   message:
     "You are a writing assistant. Provide ONE direct rewrite of the text. Do not provide multiple options or explanations. Just rewrite the text once in the requested style.",
@@ -34,10 +34,11 @@ export async function POST(req: Request) { // Handler untuk menangani permintaan
     const targetLanguage =
       languageMap[language as keyof typeof languageMap] || "English";
 
-    // Build prompt based on content type
+    // Buat Prompt untuk AI
     const prompt = buildPrompt(type, targetLanguage, tone, text, comment);
 
-    const response = await ai.models.generateContent({ // Memanggil model AI Gemini
+    // Memanggil model AI Gemini
+    const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: prompt,
       config: {
@@ -48,6 +49,7 @@ export async function POST(req: Request) { // Handler untuk menangani permintaan
       },
     });
 
+    // Kirim kembali ke frontend sebagai result
     const rewrittenText = response.text;
 
     return NextResponse.json({ result: rewrittenText });
@@ -60,6 +62,7 @@ export async function POST(req: Request) { // Handler untuk menangani permintaan
   }
 }
 
+//  Builder prompt yang menyesuaikan isi perintah berdasarkan type
 function buildPrompt(
   type: string,
   language: string,
@@ -77,7 +80,7 @@ function buildPrompt(
           - Keep it concise and culturally appropriate for ${language}
 
           Content to rewrite:
-          ${text}`,   
+          ${text}`,
 
     comment: `
           Write ONE ${tone} response in ${language}.

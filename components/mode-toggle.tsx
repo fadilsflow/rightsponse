@@ -15,6 +15,7 @@ import {
 export function ModeToggle() {
   const { setTheme } = useTheme();
 
+  // Memberi pengguna kontrol visual untuk mengubah tampilan aplikasi (dark/light)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

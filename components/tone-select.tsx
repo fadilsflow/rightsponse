@@ -13,6 +13,7 @@ interface ToneSelectProps {
   onValueChange: (value: string) => void;
 }
 
+// Daftar semua tone yang tersedia beserta kategorinya
 const tones = [
   { value: "professional", label: "Professional", group: "Business" },
   { value: "formal", label: "Formal", group: "Business" },
@@ -29,6 +30,8 @@ const tones = [
   { value: "urgent", label: "Urgent", group: "Special" },
 ];
 
+// Mengelompokkan tones berdasarkan properti "group" menjadi format:
+// { Business: [...], Casual: [...], Emotional: [...], Special: [...] }
 const groupedTones = tones.reduce((acc, tone) => {
   if (!acc[tone.group]) {
     acc[tone.group] = [];
@@ -37,6 +40,7 @@ const groupedTones = tones.reduce((acc, tone) => {
   return acc;
 }, {} as Record<string, typeof tones>);
 
+// Komponen utama yang ditampilkan di UI
 export const ToneSelect = ({ value, onValueChange }: ToneSelectProps) => {
   return (
     <Select value={value} onValueChange={onValueChange}>
