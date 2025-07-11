@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { VoiceInput } from "@/components/ui/voice-input";
 
 // Tipe tab yang tersedia
 type TabType = "message" | "email" | "comment";
@@ -71,7 +72,7 @@ export default function Home() {
     return true;
   };
 
-   // Fungsi untuk mengirim permintaan ke endpoint AI
+  // Fungsi untuk mengirim permintaan ke endpoint AI
   const handleSubmit = async (type: TabType) => {
     if (!validateInput(type)) return;
 
@@ -206,21 +207,26 @@ export default function Home() {
                           value={inputText}
                           onChange={(e) => setInputText(e.target.value)}
                         />
-                        <Button
-                          size="sm"
-                          className={cn(
-                            "absolute bottom-2 right-2 transition-opacity",
-                            !inputText && "opacity-0"
-                          )}
-                          onClick={() => handleSubmit(activeTab)}
-                          disabled={isLoading}
-                        >
-                          {isLoading ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <Sparkles className="h-4 w-4" />
-                          )}
-                        </Button>
+                        <div className="absolute bottom-2 left-2">
+                          <VoiceInput onTextReceived={setInputText} />
+                        </div>
+                        <div className="absolute bottom-2 right-2 flex gap-2">
+                          <Button
+                            size="sm"
+                            className={cn(
+                              "transition-opacity",
+                              !inputText && "opacity-0"
+                            )}
+                            onClick={() => handleSubmit(activeTab)}
+                            disabled={isLoading}
+                          >
+                            {isLoading ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Sparkles className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
