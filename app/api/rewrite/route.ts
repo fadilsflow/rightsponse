@@ -16,13 +16,16 @@ const systemInstructions = {
     "You are an email expert. Provide ONE direct email format. Do not provide multiple options or explanations. Format the email once with subject, greeting, and closing.",
   comment:
     "You are a response expert. Provide ONE direct response. Do not provide multiple options or explanations. Just write one clear response.",
+  prompt:
+    "You are a prompt engineering expert. Improve the given prompt to be more effective, clear, and specific. Provide ONE improved version without explanations.",
 };
 
 // Maximum output length constraints
 const MAX_OUTPUT_TOKENS = 250; // batas maksimal jumlah token yang akan dihasilkan model.
 const TEMPERATURE = 0.3; // mengontrol kreativitas output AI
 
-export async function POST(req: Request) { // Handler untuk menangani permintaan POST dari klien
+export async function POST(req: Request) {
+  // Handler untuk menangani permintaan POST dari klien
   try {
     const { text, tone, language, type, comment } = await req.json();
 
@@ -102,6 +105,21 @@ function buildPrompt(
           - Be concise and clear
 
           Message to rewrite:
+${text}`,
+
+    prompt: `
+          Improve this AI prompt to be more effective and get better results.
+          IMPORTANT:
+          - Make it more specific and clear
+          - Add necessary context and constraints
+          - Include relevant parameters or requirements
+          - Optimize for the intended outcome
+          - Keep the core request intact
+          - Output in ${language} with a ${tone} tone
+          - Provide only ONE improved version
+          - Do not explain or give options
+
+          Original prompt:
 ${text}`,
   };
 

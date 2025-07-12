@@ -28,13 +28,14 @@ import { cn } from "@/lib/utils";
 import { VoiceInput } from "@/components/ui/voice-input";
 
 // Tipe tab yang tersedia
-type TabType = "message" | "email" | "comment";
+type TabType = "message" | "email" | "comment" | "prompt";
 
 // Deskripsi untuk masing-masing tab
 const tabDescriptions = {
   message: "Improve your message with AI assistance",
   email: "Create professional emails with proper formatting",
   comment: "Generate appropriate responses to comments",
+  prompt: "Improve your AI prompts for better results",
 };
 
 // Placeholder untuk masing-masing input tergantung tab
@@ -43,28 +44,56 @@ const placeholders = {
   email:
     "Write your email content here. The AI will format it with a subject line, greeting, and closing.",
   comment: "Write your reply here...",
+  prompt: "Write your AI prompt here, and we'll help make it more effective...",
 };
+
+// Tipe untuk menyimpan input dan output per tab
+interface TabContent {
+  input: string;
+  output: string;
+  comment?: string;
+}
 
 // Komponen utama halaman
 export default function Home() {
-  // State untuk menyimpan input/output dan pengaturan
   const [isCopied, setIsCopied] = useState(false);
-  const [inputText, setInputText] = useState("");
-  const [comment, setComment] = useState("");
-  const [outputText, setOutputText] = useState("");
+  const [tabContents, setTabContents] = useState<Record<TabType, TabContent>>({
+    message: { input: "", output: "" },
+    email: { input: "", output: "" },
+    comment: { input: "", output: "", comment: "" },
+    prompt: { input: "", output: "" },
+  });
   const [language, setLanguage] = useState("id");
   const [tone, setTone] = useState("professional");
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>("message");
 
+  // Fungsi untuk mengupdate input text berdasarkan tab aktif
+  const updateInput = (value: string) => {
+    setTabContents((prev) => ({
+      ...prev,
+      [activeTab]: { ...prev[activeTab], input: value },
+    }));
+  };
+
+  // Fungsi untuk mengupdate comment pada tab comment
+  const updateComment = (value: string) => {
+    setTabContents((prev) => ({
+      ...prev,
+      comment: { ...prev.comment, comment: value },
+    }));
+  };
+
   // Fungsi validasi agar input tidak kosong
   const validateInput = (type: TabType): boolean => {
-    if (!inputText.trim()) {
+    const content = tabContents[type];
+
+    if (!content.input.trim()) {
       toast.error("Please enter your message");
       return false;
     }
 
-    if (type === "comment" && !comment.trim()) {
+    if (type === "comment" && !content.comment?.trim()) {
       toast.error("Please enter the comment you're replying to");
       return false;
     }
@@ -76,33 +105,35 @@ export default function Home() {
   const handleSubmit = async (type: TabType) => {
     if (!validateInput(type)) return;
 
+    const content = tabContents[type];
     setIsLoading(true);
+
     try {
-      // Mengirim Request ke API
       const response = await fetch("/api/rewrite", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          text: inputText,
-          comment: type === "comment" ? comment : undefined,
+          text: content.input,
+          comment: type === "comment" ? content.comment : undefined,
           tone,
           language,
           type,
         }),
       });
 
-      // Menerima Respons AI
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to process request");
       }
 
-      // Menampilkan Hasil dari AI
       if (data.result) {
-        setOutputText(data.result);
+        setTabContents((prev) => ({
+          ...prev,
+          [type]: { ...prev[type], output: data.result },
+        }));
         toast.success("Your text has been improved");
       }
     } catch (error) {
@@ -118,8 +149,9 @@ export default function Home() {
   };
 
   const copyToClipboard = async () => {
+    const currentOutput = tabContents[activeTab].output;
     try {
-      await navigator.clipboard.writeText(outputText);
+      await navigator.clipboard.writeText(currentOutput);
       toast.success("Text copied to clipboard");
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
@@ -127,6 +159,9 @@ export default function Home() {
       toast.error("Failed to copy text");
     }
   };
+
+  // Get current tab content
+  const currentContent = tabContents[activeTab];
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-muted/50">
@@ -147,7 +182,7 @@ export default function Home() {
             onValueChange={(v) => setActiveTab(v as TabType)}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-3 mb-8">
+            <TabsList className="grid w-full grid-cols-4 mb-8">
               <TabsTrigger value="message" className="flex items-center gap-2">
                 <MessageSquare className="h-4 w-4" />
                 Message
@@ -159,6 +194,10 @@ export default function Home() {
               <TabsTrigger value="comment" className="flex items-center gap-2">
                 <MessagesSquare className="h-4 w-4" />
                 Comment
+              </TabsTrigger>
+              <TabsTrigger value="prompt" className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                Prompt
               </TabsTrigger>
             </TabsList>
 
@@ -187,9 +226,9 @@ export default function Home() {
                         <p className="text-sm font-medium">Original Comment</p>
                         <Textarea
                           placeholder="Paste the comment you're replying to..."
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                          className="h-24 resize-none "
+                          value={tabContents.comment.comment}
+                          onChange={(e) => updateComment(e.target.value)}
+                          className="h-24 resize-none"
                         />
                       </div>
                     )}
@@ -199,23 +238,24 @@ export default function Home() {
                         {activeTab === "message" && "Your Message"}
                         {activeTab === "email" && "Email Content"}
                         {activeTab === "comment" && "Your Reply"}
+                        {activeTab === "prompt" && "Your Prompt"}
                       </p>
                       <div className="relative">
                         <Textarea
                           placeholder={placeholders[activeTab]}
-                          className="min-h-[200px] pr-12 resize-none "
-                          value={inputText}
-                          onChange={(e) => setInputText(e.target.value)}
+                          className="min-h-[200px] pr-12 resize-none"
+                          value={currentContent.input}
+                          onChange={(e) => updateInput(e.target.value)}
                         />
                         <div className="absolute bottom-2 left-2">
-                          <VoiceInput onTextReceived={setInputText} />
+                          <VoiceInput onTextReceived={updateInput} />
                         </div>
                         <div className="absolute bottom-2 right-2 flex gap-2">
                           <Button
                             size="sm"
                             className={cn(
                               "transition-opacity",
-                              !inputText && "opacity-0"
+                              !currentContent.input && "opacity-0"
                             )}
                             onClick={() => handleSubmit(activeTab)}
                             disabled={isLoading}
@@ -240,7 +280,7 @@ export default function Home() {
                     AI-enhanced text with your selected style
                   </CardDescription>
                   <div className="absolute top-7.5 right-6 flex justify-end">
-                    {outputText && (
+                    {currentContent.output && (
                       <Button
                         size="icon"
                         variant={"ghost"}
@@ -264,14 +304,14 @@ export default function Home() {
                   <div className="space-y-4">
                     <div className="relative">
                       <div className="min-h-[200px] w-full rounded-tr-none  rounded-md border border-input bg-transparent dark:bg-input/30 px-3 py-2 text-sm whitespace-pre-wrap">
-                        {outputText || (
+                        {currentContent.output || (
                           <span className="text-muted-foreground">
                             Your improved text will appear here...
                           </span>
                         )}
                       </div>
                     </div>
-                    {outputText && (
+                    {currentContent.output && (
                       <div className="flex gap-2">
                         <Badge variant="secondary">
                           {language.toUpperCase()}
