@@ -14,6 +14,7 @@ interface SpeechRecognitionErrorEvent extends Event {
 }
 
 interface SpeechRecognition extends EventTarget {
+  lang: string; // <--- Tambahkan baris ini
   continuous: boolean;
   interimResults: boolean;
   onstart: (event: Event) => void;
@@ -60,6 +61,7 @@ export function VoiceInput({ onTextReceived }: VoiceInputProps) {
 
     setIsLoading(true);
     const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "id-ID"; // Set bahasa Indonesia
     recognitionRef.current = recognition;
 
     recognition.continuous = false;

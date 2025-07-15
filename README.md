@@ -1,37 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<Image
+  src="https://res.cloudinary.com/dxurnpbrc/image/upload/v1749031764/RIGHTSPONSE_jzqpkh.png"
+  alt="Rightsponse AI Rewriter"
+  width={1000}
+  height={1000}
+/>
+
+# Rightsponse - AI Writing Assistant
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/fadilsflow/rightsponse)
+
+Transform your communication with AI-powered writing assistance. Perfect for emails, messages, responses, and AI prompts. Built with Next.js and Gemini API, it offers customizable language and tone options for better communication. Features include real-time text generation, multiple response formats, voice input capabilities, and a clean, modern UI powered by shadcn/ui.
+
+## Features
+
+- **Multiple Content Types**: Support for messages, emails, comment responses, and AI prompt improvement
+- **Language Options**: Switch between English and Indonesian
+- **Customizable Tones**: Choose from various tones including professional, casual, and emotional
+- **Real-time Generation**: Instant AI-powered text improvements
+- **Voice Input**: Speech-to-text capability for easy content input
+- **Prompt Engineering**: AI-powered prompt improvement for better AI interactions
+- **Modern UI**: Clean, responsive interface built with shadcn/ui
+- **Copy to Clipboard**: Easy sharing of generated content
+- **Mobile-Friendly**: Fully responsive design for all devices
+- **State Persistence**: Maintains separate content states across different tabs
+
+## Tech Stack
+
+- **Next.js 15.3.3**: React Framework for production
+- **Gemini API**: Google's advanced language model
+- **TypeScript**: For type-safe code
+- **Tailwind CSS**: Utility-first CSS framework
+- **shadcn/ui**: High-quality UI components
+- **Web Speech API**: For voice input functionality
 
 ## Getting Started
 
-First, run the development server:
+For detailed setup instructions, check out the [Full tutorial](https://fadils.xyz/blog/posts/membuat-ai-rewriter-dengan-gemini-api-dan-Nextjs).
+
+```bash
+git clone https://github.com/fadilsflow/rightsponse
+cd rightsponse
+npm install
+```
+
+get the api key from [Google AI Studio](https://aistudio.google.com/apikey) and set it in the ".env" file:
+
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Future Development Plans
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Authentication**: User accounts and saved preferences
+2. **Custom Models**: Support for different AI models
+3. **History Tracking**: Save and review past generations
+4. **Database Integration**: Persistent storage of user data
+5. **Browser Extension**: Quick access from any website
+6. **Mobile App**: Native mobile experience
+7. **Advanced Voice Features**: More voice input controls and languages
 
-## Learn More
+## Resources
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js Documentation](https://nextjs.org/)
+- [Shadcn/ui Components](https://ui.shadcn.com/)
+- [Gemini API Reference](https://ai.google.dev/docs)
+- [Rightsponse](https://rs.fadils.xyz)
+- [GitHub Repository](https://github.com/fadilsflow/rightsponse)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For questions, suggestions, or collaboration opportunities:
 
-## Deploy on Vercel
+- Email: [wahyufadil1140@gmail.com](mailto:wahyufadil1140@gmail.com)
+- GitHub: [@fadilsflow](https://github.com/fadilsflow)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# rightsponse
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/fadilsflow/rightsponse/blob/main/LICENSE) file for details.

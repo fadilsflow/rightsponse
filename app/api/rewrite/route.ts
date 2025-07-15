@@ -17,7 +17,7 @@ const systemInstructions = {
   comment:
     "You are a response expert. Provide ONE direct response. Do not provide multiple options or explanations. Just write one clear response.",
   prompt:
-    "You are a prompt engineering expert. Improve the given prompt to be more effective, clear, and specific. Provide ONE improved version without explanations.",
+    "You are a prompt engineer. Output ONLY the improved prompt. No greetings, no explanations, no pleasantries, no additional text. Return ONLY the improved prompt text.",
 };
 
 // Maximum output length constraints
@@ -108,18 +108,22 @@ function buildPrompt(
 ${text}`,
 
     prompt: `
-          Improve this AI prompt to be more effective and get better results.
-          IMPORTANT:
+          RULES FOR IMPROVING THIS PROMPT:
+          1. Output the improved prompt DIRECTLY
+          2. NO greetings, pleasantries, or explanations
+          3. NO "Here's the improved prompt:" or similar phrases
+          4. NO "I hope this helps" or any closing remarks
+          5. ONLY output the actual improved prompt text
+          
+          IMPROVEMENTS TO MAKE:
           - Make it more specific and clear
           - Add necessary context and constraints
-          - Include relevant parameters or requirements
-          - Optimize for the intended outcome
-          - Keep the core request intact
-          - Output in ${language} with a ${tone} tone
-          - Provide only ONE improved version
-          - Do not explain or give options
-
-          Original prompt:
+          - Include relevant parameters
+          - Optimize for intended outcome
+          - Keep core request intact
+          - Use ${language} with ${tone} tone
+          
+          PROMPT TO IMPROVE:
 ${text}`,
   };
 

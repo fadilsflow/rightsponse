@@ -140,7 +140,7 @@ export default function Home() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Failed to process your request"
+          : "Failed to process your request",
       );
       console.error("Error:", error);
     } finally {
@@ -255,7 +255,7 @@ export default function Home() {
                             size="sm"
                             className={cn(
                               "transition-opacity",
-                              !currentContent.input && "opacity-0"
+                              !currentContent.input && "opacity-0",
                             )}
                             onClick={() => handleSubmit(activeTab)}
                             disabled={isLoading}
@@ -288,7 +288,7 @@ export default function Home() {
                         disabled={isCopied}
                         className={cn(
                           "bg-input/30 border-t  border-x text-muted-foreground  border-b-none rounded-b-none",
-                          "disabled:opacity-100 disabled:bg-input/30"
+                          "disabled:opacity-100 disabled:bg-input/30",
                         )}
                       >
                         {isCopied ? (
