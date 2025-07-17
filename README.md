@@ -1,6 +1,6 @@
 # Rightsponse - AI Writing Assistant
 
-<div align="center">
+<div>
   <img src="https://res.cloudinary.com/dxurnpbrc/image/upload/v1752719903/RIGHTSPONSE_jzqpkh.png" alt="Rightsponse AI Rewriter" width="600" />
   
   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/fadilsflow/rightsponse)
