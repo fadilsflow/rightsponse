@@ -72,23 +72,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the r
 - [Next.js Documentation](https://nextjs.org/)
 - [Shadcn/ui Components](https://ui.shadcn.com/)
 - [Gemini API Reference](https://ai.google.dev/docs)
-- [Live Demo](https://rs.fadils.xyz)
+- [Live Demo](https://rightsponse.webtron.biz.id/)
 - [GitHub Repository](https://github.com/fadilsflow/rightsponse)
-
-## 📬 Contact
-
-For questions, suggestions, or collaboration opportunities:
-
-- Email: [wahyufadil1140@gmail.com](mailto:wahyufadil1140@gmail.com)
-- GitHub: [@fadilsflow](https://github.com/fadilsflow)
-- Website: [fadils.xyz](https://fadils.xyz)
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/fadilsflow/rightsponse/blob/main/LICENSE) file for details.
-
----
-
-<div align="center">
-  Made with ❤️ by Fadil
-</div>
