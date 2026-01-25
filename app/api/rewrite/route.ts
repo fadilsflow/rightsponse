@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     // Memanggil model AI Gemini
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         temperature: TEMPERATURE,
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     console.error("Error:", error);
     return NextResponse.json(
       { error: "Failed to process the request" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -71,12 +71,12 @@ function buildPrompt(
   language: string,
   tone: string,
   text: string,
-  comment?: string
+  comment?: string,
 ): string {
   const prompts = {
     email: `
           Rewrite this content as ONE professional email in ${language} with a ${tone} tone.
-          IMPORTANT: 
+          IMPORTANT:
           - Provide only ONE version
           - Do not explain or give options
           - Include subject, greeting, and closing
@@ -114,7 +114,7 @@ ${text}`,
           3. NO "Here's the improved prompt:" or similar phrases
           4. NO "I hope this helps" or any closing remarks
           5. ONLY output the actual improved prompt text
-          
+
           IMPROVEMENTS TO MAKE:
           - Make it more specific and clear
           - Add necessary context and constraints
@@ -122,7 +122,7 @@ ${text}`,
           - Optimize for intended outcome
           - Keep core request intact
           - Use ${language} with ${tone} tone
-          
+
           PROMPT TO IMPROVE:
 ${text}`,
   };
