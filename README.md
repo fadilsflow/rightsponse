@@ -65,6 +65,5 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the r
 - [Live Demo](https://rightsponse.webtron.biz.id/)
 - [GitHub Repository](https://github.com/fadilsflow/rightsponse)
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/fadilsflow/rightsponse/blob/main/LICENSE) file for details.
+MIT [LICENSE](https://github.com/fadilsflow/rightsponse/blob/main/LICENSE)
